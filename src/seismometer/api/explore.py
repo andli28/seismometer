@@ -3,7 +3,7 @@ from typing import Any, Optional
 import pandas as pd
 from IPython.display import HTML, display
 
-from seismometer.controls.decorators import disk_cached_html_segment
+from seismometer.controls.decorators import disk_cached_html_and_df_segment
 from seismometer.controls.explore import ExplorationWidget  # noqa:
 from seismometer.controls.explore import (
     ExplorationCohortOutcomeInterventionEvaluationWidget,
@@ -217,6 +217,7 @@ def cohort_list():
     return VBox(children=[comparison_selections, output], layout=BOX_GRID_LAYOUT)
 
 
+@disk_cached_html_and_df_segment
 @export
 def cohort_list_details(cohort_dict: dict[str, tuple[Any]]) -> tuple[HTML, pd.DataFrame]:
     """

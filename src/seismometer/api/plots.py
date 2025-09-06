@@ -6,7 +6,7 @@ import pandas as pd
 from IPython.display import HTML, SVG
 
 import seismometer.plot as plot
-from seismometer.controls.decorators import disk_cached_html_segment
+from seismometer.controls.decorators import disk_cached_html_and_df_segment
 from seismometer.core.autometrics import AutomationManager, store_call_parameters
 from seismometer.core.decorators import export
 from seismometer.data import get_cohort_data, get_cohort_performance_data, metric_apis
@@ -36,6 +36,7 @@ def plot_cohort_hist():
     return _plot_cohort_hist(sg.dataframe, sg.target, sg.output, cohort_col, subgroups, censor_threshold)
 
 
+@disk_cached_html_and_df_segment
 @export
 def plot_cohort_group_histograms(
     cohort_col: str, subgroups: list[str], target_column: str, score_column: str
@@ -165,6 +166,7 @@ def plot_leadtime_enc(score=None, ref_time=None, target_event=None):
 
 
 @store_call_parameters(cohort_col="cohort_col", subgroups="subgroups")
+@disk_cached_html_and_df_segment
 @export
 def plot_cohort_lead_time(
     cohort_col: str, subgroups: list[str], event_column: str, score_column: str, threshold: float
@@ -316,6 +318,7 @@ def _plot_leadtime_enc(
 
 
 @store_call_parameters(cohort_col="cohort_col", subgroups="subgroups")
+@disk_cached_html_and_df_segment
 @export
 def plot_cohort_evaluation(
     cohort_col: str,
@@ -447,6 +450,7 @@ def _plot_cohort_evaluation(
 
 
 @store_call_parameters(cohort_dict="cohort_dict")
+@disk_cached_html_and_df_segment
 @export
 def plot_model_evaluation(
     cohort_dict: dict[str, tuple[Any]],
@@ -622,6 +626,7 @@ def plot_trend_intervention_outcome() -> HTML:
     )
 
 
+@disk_cached_html_and_df_segment
 @export
 def plot_intervention_outcome_timeseries(
     cohort_col: str,
@@ -840,6 +845,7 @@ def _plot_ts_cohort(
 
 
 @store_call_parameters(cohort_dict="cohort_dict")
+@disk_cached_html_and_df_segment
 @export
 def plot_model_score_comparison(
     cohort_dict: dict[str, tuple[Any]], target: str, scores: tuple[str], *, per_context: bool
@@ -906,6 +912,7 @@ def plot_model_score_comparison(
     return template.render_title_with_image(title, svg), plot_data
 
 
+@disk_cached_html_and_df_segment
 @export
 def plot_model_target_comparison(
     cohort_dict: dict[str, tuple[Any]], targets: tuple[str], score: str, *, per_context: bool
@@ -974,6 +981,7 @@ def plot_model_target_comparison(
 
 # region Explore Any Metric (NNT, etc)
 @store_call_parameters(cohort_dict="cohort_dict")
+@disk_cached_html_and_df_segment
 @export
 def plot_binary_classifier_metrics(
     metric_generator: BinaryClassifierMetricGenerator,
